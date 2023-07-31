@@ -23,8 +23,12 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
     {
         $type = $this->primitiveMap[$type] ?? $type;
         $this->isPrimitive = in_array($type, array_column(Primitives::cases(), 'value'));
-        if (!$this->isPrimitive && class_exists($type) === false) {
-            throw new InvalidArgumentException("Type {$type} does not exist");
+        if (!$this->isPrimitive) {
+            try {
+                new \ReflectionClass($type);
+            } catch (\ReflectionException $e) {
+                throw new InvalidArgumentException("Type {$type} does not exist");
+            }
         }
 
         $this->type = $type;
@@ -146,7 +150,7 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         return new TypedArray($this->type, array_merge($this->items, $list->items));
     }
 
-    public function each(callable $callback) 
+    public function each(callable $callback)
     {
         foreach ($this->items as $item) {
             $callback($item);

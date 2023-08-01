@@ -247,4 +247,32 @@ class TypedAssocArray implements IteratorAggregate, Countable
 
         return new TypedAssocArray($this->keyType, $this->type, $keys, $items);
     }
+
+    public function merge(TypedAssocArray $assocArray): TypedAssocArray
+    {
+        $targetKeys = $assocArray->getKeys();
+        $targetValues = $assocArray->getValues();
+        $newKeys = $this->keys;
+        $newItems = $this->items;
+
+        foreach ($targetKeys as $index => $targetKey) {
+            if ($this->exists($targetKey)) {
+                // If key already exists, replace the value
+                $existsIndex = array_search($targetKey, $newKeys);
+                $newItems[$existsIndex] = $targetValues[$index];
+            } else {
+                $newKeys[] = $targetKey;
+                $newItems[] = $targetValues[$index];
+            }
+        }
+
+        return new TypedAssocArray($this->keyType, $this->type, $newKeys, $newItems);
+    }
+
+    public function eachWithKeys(callable $callback): void
+    {
+        foreach ($this->items as $index => $item) {
+            $callback($this->keys[$index], $item);
+        }
+    }
 }

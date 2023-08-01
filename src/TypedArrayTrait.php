@@ -67,4 +67,11 @@ trait TypedArrayTrait
     {
         return $this->mapWithType($this->type, $callback);
     }
+
+    public function each(callable $callback)
+    {
+        foreach ($this->items as $item) {
+            $callback($item);
+        }
+    }
 }

@@ -99,11 +99,4 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         }
         return new TypedArray($this->type, array_merge($this->items, $list->items));
     }
-
-    public function each(callable $callback)
-    {
-        foreach ($this->items as $item) {
-            $callback($item);
-        }
-    }
 }

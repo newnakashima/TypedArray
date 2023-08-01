@@ -281,3 +281,55 @@ test('mapWithKeysAndSameTypes', function () {
     expect($mapped->get(1)->value)->toBe(6);
     expect($mapped->get(2)->value)->toBe(8);
 });
+
+test('merge', function () {
+    $keys = [
+        new keyClass(1),
+        new KeyClass(2),
+    ];
+
+    $values = [
+        new ValueClass(3),
+        new ValueClass(4),
+    ];
+
+    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+
+    $merged = $assoc->merge(new TypedAssocArray(
+        keyClass::class,
+        ValueClass::class,
+        [
+            new KeyClass(2),
+            new keyClass(3),
+            new KeyClass(4),
+        ], [
+            new ValueClass(5),
+            new ValueClass(6),
+            new ValueClass(7),
+        ]
+    ));
+    var_dump($merged->getValues());
+
+    expect($merged->get(1)->value)->toBe(3);
+    expect($merged->get(2)->value)->toBe(5);
+    expect($merged->get(3)->value)->toBe(6);
+    expect($merged->get(4)->value)->toBe(7);
+});
+
+test('eachWithKeys', function () {
+    $keys = [
+        new keyClass(1),
+        new KeyClass(2),
+    ];
+
+    $values = [
+        new ValueClass(3),
+        new ValueClass(4),
+    ];
+
+    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc->eachWithKeys(function ($key, $item) {
+        expect($key)->toBeInstanceOf(KeyClass::class);
+        expect($item)->toBeInstanceOf(ValueClass::class);
+    });
+});

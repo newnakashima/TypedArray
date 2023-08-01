@@ -308,7 +308,6 @@ test('merge', function () {
             new ValueClass(7),
         ]
     ));
-    var_dump($merged->getValues());
 
     expect($merged->get(1)->value)->toBe(3);
     expect($merged->get(2)->value)->toBe(5);

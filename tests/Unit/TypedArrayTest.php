@@ -92,7 +92,9 @@ test('offsetGet', function () {
     $list = new TypedArray('string', ['foo', 'bar']);
     expect($list[0])->toBe('foo');
     expect($list[1])->toBe('bar');
-    expect($list[2])->toBe(null);
+    expect(function () use ($list) {
+        $list[2];
+    })->toThrow(OutOfBoundsException::class);
 });
 
 test('offsetSet', function () {
@@ -119,7 +121,9 @@ test('offsetUnset', function () {
     $list = new TypedArray('string', ['foo', 'bar']);
     unset($list[0]);
     expect($list)->toHaveLength(1);
-    expect($list[0])->toBeNull();
+    expect(function () use ($list) {
+        $list[0];
+    })->toThrow(OutOfBoundsException::class);
     expect($list[1])->toBe('bar');
 });
 

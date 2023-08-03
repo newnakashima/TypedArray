@@ -83,4 +83,9 @@ trait TypedArrayTrait
             }
         }
     }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->items);
+    }
 }

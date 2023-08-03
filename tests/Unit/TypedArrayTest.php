@@ -232,3 +232,31 @@ test('find', function () {
     expect($item->value)->toBe('bar');
     expect($item)->toBeInstanceOf(TestClass::class);
 });
+
+test('push', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+    $list->push(6);
+    expect($list)->toHaveLength(6);
+    expect($list[5])->toBe(6);
+});
+
+test('pop', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+    $item = $list->pop();
+    expect($list)->toHaveLength(4);
+    expect($item)->toBe(5);
+});
+
+test('shift', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+    $item = $list->shift();
+    expect($list)->toHaveLength(4);
+    expect($item)->toBe(1);
+});
+
+test('unshift', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+    $list->unshift(0);
+    expect($list)->toHaveLength(6);
+    expect($list[0])->toBe(0);
+});

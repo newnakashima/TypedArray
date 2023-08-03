@@ -99,4 +99,26 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         }
         return new TypedArray($this->type, array_merge($this->items, $list->items));
     }
+
+    public function push(mixed $item): void
+    {
+        $item = $this->validate($item);
+        array_push($this->items, $item);
+    }
+
+    public function pop(): mixed
+    {
+        return array_pop($this->items);
+    }
+
+    public function shift(): mixed
+    {
+        return array_shift($this->items);
+    }
+
+    public function unshift(mixed $item): void
+    {
+        $item = $this->validate($item);
+        array_unshift($this->items, $item);
+    }
 }

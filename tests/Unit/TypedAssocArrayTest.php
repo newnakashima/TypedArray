@@ -332,3 +332,23 @@ test('eachWithKeys', function () {
         expect($item)->toBeInstanceOf(ValueClass::class);
     });
 });
+
+test('find', function () {
+    $keys = [
+        new keyClass(1),
+        new KeyClass(2),
+    ];
+
+    $values = [
+        new ValueClass(3),
+        new ValueClass(4),
+    ];
+
+    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $found = $assoc->find(function (ValueClass $value) {
+        return $value->value === 3;
+    });
+
+    expect($found)->toBeInstanceOf(ValueClass::class);
+    expect($found->value)->toBe(3);
+});

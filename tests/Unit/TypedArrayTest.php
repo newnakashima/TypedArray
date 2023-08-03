@@ -210,3 +210,25 @@ test('each', function () {
     expect($list)->toHaveLength(5);
     expect($a)->toHaveLength(5);
 });
+
+test('find', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+
+    $item = $list->find(function ($item) {
+        return $item === 3;
+    });
+
+    expect($item)->toBe(3);
+
+    $list = new TypedArray(TestClass::class, [
+        new TestClass('foo'),
+        new TestClass('bar')
+    ]);
+
+    $item = $list->find(function (TestClass $item) {
+        return $item->value === 'bar';
+    });
+
+    expect($item->value)->toBe('bar');
+    expect($item)->toBeInstanceOf(TestClass::class);
+});

@@ -260,3 +260,10 @@ test('unshift', function () {
     expect($list)->toHaveLength(6);
     expect($list[0])->toBe(0);
 });
+
+test('isEmpty', function () {
+    $list = new TypedArray(Primitives::Int->value, range(1, 5));
+    expect($list->isEmpty())->toBe(false);
+    $list = new TypedArray(Primitives::Int->value);
+    expect($list->isEmpty())->toBe(true);
+});

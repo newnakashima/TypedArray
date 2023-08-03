@@ -352,3 +352,10 @@ test('find', function () {
     expect($found)->toBeInstanceOf(ValueClass::class);
     expect($found->value)->toBe(3);
 });
+
+test('isEmpty', function () {
+    $list = new TypedAssocArray(keyClass::class, ValueClass::class);
+    expect($list->isEmpty())->toBe(true);
+    $list->add(new KeyClass(1), new ValueClass(1));
+    expect($list->isEmpty())->toBe(false);
+});

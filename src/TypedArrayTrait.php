@@ -74,4 +74,13 @@ trait TypedArrayTrait
             $callback($item);
         }
     }
+
+    public function find(callable $callback)
+    {
+        foreach ($this->items as $item) {
+            if ($callback($item)) {
+                return $item;
+            }
+        }
+    }
 }

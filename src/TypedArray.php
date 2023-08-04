@@ -126,4 +126,9 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
     {
         return new TypedArray($this->type, array_reverse($this->items));
     }
+
+    public function toArray(): array
+    {
+        return $this->items;
+    }
 }

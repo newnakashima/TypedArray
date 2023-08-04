@@ -281,3 +281,18 @@ test('reverse', function () {
     expect($list[1])->toBe('bar');
     expect($list[2])->toBe('foo');
 });
+
+test('toArray', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $array = $list->toArray();
+    expect($array)->toHaveLength(3);
+    expect($array[0])->toBe('foo');
+    expect($array[1])->toBe('bar');
+    expect($array[2])->toBe('baz');
+    expect($array)->toBeArray();
+});

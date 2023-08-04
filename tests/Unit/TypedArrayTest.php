@@ -267,3 +267,17 @@ test('isEmpty', function () {
     $list = new TypedArray(Primitives::Int->value);
     expect($list->isEmpty())->toBe(true);
 });
+
+test('reverse', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $list = $list->reverse();
+    expect($list)->toHaveLength(3);
+    expect($list[0])->toBe('baz');
+    expect($list[1])->toBe('bar');
+    expect($list[2])->toBe('foo');
+});

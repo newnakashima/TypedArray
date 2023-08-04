@@ -121,4 +121,9 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         $item = $this->validate($item);
         array_unshift($this->items, $item);
     }
+
+    public function reverse(): TypedArray
+    {
+        return new TypedArray($this->type, array_reverse($this->items));
+    }
 }

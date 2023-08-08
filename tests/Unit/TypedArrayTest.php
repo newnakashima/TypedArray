@@ -296,3 +296,39 @@ test('toArray', function () {
     expect($array[2])->toBe('baz');
     expect($array)->toBeArray();
 });
+
+test('first', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $item = $list->first();
+    expect($item)->toBe('foo');
+});
+
+test('last', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $item = $list->last();
+    expect($item)->toBe('baz');
+});
+
+test('toString', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $string = (string)$list;
+    expect($string)
+        ->toBeString()
+        ->toContain('array')
+        ->toContain(' => ');
+});

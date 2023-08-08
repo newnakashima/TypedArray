@@ -318,3 +318,17 @@ test('last', function () {
     $item = $list->last();
     expect($item)->toBe('baz');
 });
+
+test('toString', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $string = (string)$list;
+    expect($string)
+        ->toBeString()
+        ->toContain('array')
+        ->toContain(' => ');
+});

@@ -141,4 +141,9 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
     {
         return $this->items[$this->count() - 1];
     }
+
+    public function __toString()
+    {
+        return var_export($this->items, true);
+    }
 }

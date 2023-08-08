@@ -275,4 +275,35 @@ class TypedAssocArray implements IteratorAggregate, Countable
             $callback($this->keys[$index], $item);
         }
     }
+
+    public function toArray()
+    {
+        $asArray = [];
+        foreach ($this->keys as $key) {
+            try {
+                $strKey = (string)$key;
+            } catch (\Error $e) {
+                $strKey = get_class($key) . '@' . spl_object_id($key);
+            }
+
+            $value = $this->get($key);
+            try {
+                $strValue = (string)$value;
+            } catch (\Error $e) {
+                $strValue = (array)$value;
+            } catch (\Error $e) {
+                $strValue = get_class($value) . '@' . spl_object_id($value);
+            }
+
+            $asArray[$strKey] = $strValue;
+        }
+
+        return $asArray;
+    }
+
+    public function __toString()
+    {
+        $array = $this->toArray();
+        return var_export($array, true);
+    }
 }

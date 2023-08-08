@@ -2,7 +2,7 @@
 
 use Newnakashima\TypedArray\TypedAssocArray;
 
-class keyClass
+class KeyClass
 {
     public int $value;
     public function __construct(int $value)
@@ -33,7 +33,7 @@ test('construct', function () {
         ->toHaveLength(2);
 
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -42,7 +42,7 @@ test('construct', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     expect($assoc)
         ->toBeInstanceOf(TypedAssocArray::class)
@@ -65,7 +65,7 @@ test('add', function () {
 
 test('getIterator', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -74,20 +74,20 @@ test('getIterator', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     expect($assoc->getIterator())
         ->toBeInstanceOf(Generator::class);
 
     foreach ($assoc as $key => $value) {
-        expect($key)->toBeInstanceOf(keyClass::class);
+        expect($key)->toBeInstanceOf(KeyClass::class);
         expect($value)->toBeInstanceOf(ValueClass::class);
     }
 });
 
 test('exists', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -96,18 +96,18 @@ test('exists', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
-    expect($assoc->exists(new keyClass(1)))->toBeTrue();
-    expect($assoc->exists(new keyClass(2)))->toBeTrue();
+    expect($assoc->exists(new KeyClass(1)))->toBeTrue();
+    expect($assoc->exists(new KeyClass(2)))->toBeTrue();
     expect($assoc->exists(1))->toBeTrue();
     expect($assoc->exists(2))->toBeTrue();
-    expect($assoc->exists(new keyClass(3)))->toBeFalse();
+    expect($assoc->exists(new KeyClass(3)))->toBeFalse();
 });
 
 test('get', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -116,17 +116,17 @@ test('get', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     /** @var ValueClass */
-    $value = $assoc->get(new keyClass(1));
+    $value = $assoc->get(new KeyClass(1));
     expect($value)->toBeInstanceOf(ValueClass::class);
     expect($value->value)->toBe(1);
 });
 
 test('unset', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -135,15 +135,15 @@ test('unset', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
-    $assoc->unset(new keyClass(1));
-    expect($assoc->exists(new keyClass(1)))->toBeFalse();
+    $assoc->unset(new KeyClass(1));
+    expect($assoc->exists(new KeyClass(1)))->toBeFalse();
 });
 
 test('filter', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -152,7 +152,7 @@ test('filter', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $filtered = $assoc->filter(function (ValueClass $value) {
         return $value->value === 1;
@@ -169,7 +169,7 @@ test('filter', function () {
 
 test('filterWithKeys', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -178,7 +178,7 @@ test('filterWithKeys', function () {
         new ValueClass(2),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $filtered = $assoc->filterWithKeys(function (KeyClass $key, ValueClass $value) {
         return $key->value === 1 && $value->value === 1;
@@ -195,7 +195,7 @@ test('filterWithKeys', function () {
 
 test('mapWithKeys', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -204,7 +204,7 @@ test('mapWithKeys', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $mapped = $assoc->mapWithKeys(function (KeyClass $key, ValueClass $value) {
         return "key: {$key->value}, value: {$value->value}";
@@ -216,7 +216,7 @@ test('mapWithKeys', function () {
 
 test('mapWithKeysAndTypes', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -225,7 +225,7 @@ test('mapWithKeysAndTypes', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $mapped = $assoc->mapWithKeysAndTypes('string', 'string', function (KeyClass $key, ValueClass $value) {
         return [
@@ -250,7 +250,7 @@ test('mapWithKeysAndTypes', function () {
 
 test('mapWithKeysAndSameTypes', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -259,7 +259,7 @@ test('mapWithKeysAndSameTypes', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $mapped = $assoc->mapWithKeysAndSameTypes(function (KeyClass $key, ValueClass $value) {
         return [
@@ -284,7 +284,7 @@ test('mapWithKeysAndSameTypes', function () {
 
 test('merge', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -293,14 +293,14 @@ test('merge', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
 
     $merged = $assoc->merge(new TypedAssocArray(
-        keyClass::class,
+        KeyClass::class,
         ValueClass::class,
         [
             new KeyClass(2),
-            new keyClass(3),
+            new KeyClass(3),
             new KeyClass(4),
         ], [
             new ValueClass(5),
@@ -317,7 +317,7 @@ test('merge', function () {
 
 test('eachWithKeys', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -326,7 +326,7 @@ test('eachWithKeys', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
     $assoc->eachWithKeys(function ($key, $item) {
         expect($key)->toBeInstanceOf(KeyClass::class);
         expect($item)->toBeInstanceOf(ValueClass::class);
@@ -335,7 +335,7 @@ test('eachWithKeys', function () {
 
 test('find', function () {
     $keys = [
-        new keyClass(1),
+        new KeyClass(1),
         new KeyClass(2),
     ];
 
@@ -344,7 +344,7 @@ test('find', function () {
         new ValueClass(4),
     ];
 
-    $assoc = new TypedAssocArray(keyClass::class, ValueClass::class, $keys, $values);
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
     $found = $assoc->find(function (ValueClass $value) {
         return $value->value === 3;
     });
@@ -354,8 +354,80 @@ test('find', function () {
 });
 
 test('isEmpty', function () {
-    $list = new TypedAssocArray(keyClass::class, ValueClass::class);
+    $list = new TypedAssocArray(KeyClass::class, ValueClass::class);
     expect($list->isEmpty())->toBe(true);
     $list->add(new KeyClass(1), new ValueClass(1));
     expect($list->isEmpty())->toBe(false);
+});
+
+class KeyClassWithToString extends KeyClass
+{
+    public function __toString()
+    {
+        return (string) $this->value;
+    }
+}
+
+class ValueClassWithToString extends ValueClass
+{
+    public function __toString()
+    {
+        return (string) $this->value;
+    }
+}
+
+test('toArray', function () {
+    $keys = [
+        new KeyClassWithToString(1),
+        new KeyClassWithToString(2),
+    ];
+
+    $values = [
+        new ValueClassWithToString(3),
+        new ValueClassWithToString(4),
+    ];
+
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
+
+    expect($assoc->toArray())->toBe([
+        '1' => '3',
+        '2' => '4',
+    ]);
+
+    $keys = [
+        new KeyClass(1),
+        new KeyClass(2),
+    ];
+
+    $values = [
+        new ValueClass(3),
+        new ValueClass(4),
+    ];
+
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
+
+    $asArray = $assoc->toArray();
+    $arrayKeys = array_keys($asArray);
+    expect($arrayKeys[0])->toContain('KeyClass');
+    expect($arrayKeys[0])->toContain('KeyClass');
+    expect($asArray[$arrayKeys[0]])->toHaveKey('value');
+    expect($asArray[$arrayKeys[1]])->toHaveKey('value');
+});
+
+test('toString', function () {
+    $keys = [
+        new KeyClassWithToString(1),
+        new KeyClassWithToString(2),
+    ];
+
+    $values = [
+        new ValueClassWithToString(3),
+        new ValueClassWithToString(4),
+    ];
+
+    $assoc = new TypedAssocArray(KeyClass::class, ValueClass::class, $keys, $values);
+
+    expect((string) $assoc)
+        ->toContain('array')
+        ->toContain('=>');
 });

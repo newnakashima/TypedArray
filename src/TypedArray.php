@@ -131,4 +131,14 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
     {
         return $this->items;
     }
+
+    public function first(): mixed
+    {
+        return $this->items[0];
+    }
+
+    public function last(): mixed
+    {
+        return $this->items[$this->count() - 1];
+    }
 }

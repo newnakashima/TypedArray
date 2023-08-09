@@ -100,10 +100,13 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         return new TypedArray($this->type, array_merge($this->items, $list->items));
     }
 
-    public function push(mixed $item): void
+    public function push(mixed ...$items): void
     {
-        $item = $this->validate($item);
-        array_push($this->items, $item);
+        $validatedItems = array_map(
+            fn($item) => $this->validate($item),
+            $items
+        );
+        array_push($this->items, ...$validatedItems);
     }
 
     public function pop(): mixed
@@ -116,10 +119,13 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         return array_shift($this->items);
     }
 
-    public function unshift(mixed $item): void
+    public function unshift(mixed ...$items): void
     {
-        $item = $this->validate($item);
-        array_unshift($this->items, $item);
+        $validatedItems = array_map(
+            fn($item) => $this->validate($item),
+            $items
+        );
+        array_unshift($this->items, ...$validatedItems);
     }
 
     public function reverse(): TypedArray

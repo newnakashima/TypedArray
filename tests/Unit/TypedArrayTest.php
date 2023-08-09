@@ -12,6 +12,11 @@ class TestClass
     }
 }
 
+interface TestInterface
+{
+    public function foo(): string;
+}
+
 test('construct', function () {
     $list = new TypedArray('string', ['foo', 'bar']);
 
@@ -33,6 +38,38 @@ test('construct', function () {
     expect(function () {
         new TypedArray('inte', [1, 2]);
     })->toThrow(InvalidArgumentException::class);
+});
+
+test('extended', function () {
+    $object = new class('foo') extends TestClass {};
+
+    $list = new TypedArray(TestClass::class, [$object]);
+    expect($list)->toHaveLength(1);
+
+    $object2 = new class('bar') extends TestClass {};
+    $list->add($object2);
+    expect($list)->toHaveLength(2);
+});
+
+test('interface', function () {
+    $object = new class implements TestInterface {
+        public function foo(): string
+        {
+            return 'foo';
+        }
+    };
+
+    $list = new TypedArray(TestInterface::class, [$object]);
+    expect($list)->toHaveLength(1);
+
+    $object2 = new class implements TestInterface {
+        public function foo(): string
+        {
+            return 'bar';
+        }
+    };
+    $list->add($object2);
+    expect($list)->toHaveLength(2);
 });
 
 test('add', function () {
@@ -235,9 +272,11 @@ test('find', function () {
 
 test('push', function () {
     $list = new TypedArray(Primitives::Int->value, range(1, 5));
-    $list->push(6);
-    expect($list)->toHaveLength(6);
+    $list->push(6, 7, 8);
+    expect($list)->toHaveLength(8);
     expect($list[5])->toBe(6);
+    expect($list[6])->toBe(7);
+    expect($list[7])->toBe(8);
 });
 
 test('pop', function () {
@@ -256,9 +295,11 @@ test('shift', function () {
 
 test('unshift', function () {
     $list = new TypedArray(Primitives::Int->value, range(1, 5));
-    $list->unshift(0);
-    expect($list)->toHaveLength(6);
+    $list->unshift(0, -1, -2);
+    expect($list)->toHaveLength(8);
     expect($list[0])->toBe(0);
+    expect($list[1])->toBe(-1);
+    expect($list[2])->toBe(-2);
 });
 
 test('isEmpty', function () {

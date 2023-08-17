@@ -373,3 +373,20 @@ test('toString', function () {
         ->toContain('array')
         ->toContain(' => ');
 });
+
+test('unique', function () {
+    $list = new TypedArray(Primitives::String->value, [
+        'foo',
+        'bar',
+        'baz',
+        'foo',
+        'bar',
+        'baz',
+    ]);
+
+    $list = $list->unique();
+    expect($list)->toHaveLength(3);
+    expect($list[0])->toBe('foo');
+    expect($list[1])->toBe('bar');
+    expect($list[2])->toBe('baz');
+});

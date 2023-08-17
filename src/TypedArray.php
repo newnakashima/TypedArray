@@ -148,6 +148,14 @@ class TypedArray implements IteratorAggregate, Countable, ArrayAccess
         return $this->items[$this->count() - 1];
     }
 
+    public function unique(): TypedArray
+    {
+        return new TypedArray(
+            $this->type,
+            array_values( array_unique($this->items) )
+        );
+    }
+
     public function __toString()
     {
         return var_export($this->items, true);
